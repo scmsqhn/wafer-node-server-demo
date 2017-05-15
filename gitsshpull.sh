@@ -1,0 +1,1 @@
+git pull git@github.com:scmsqhn/wafer-node-server-demo.git

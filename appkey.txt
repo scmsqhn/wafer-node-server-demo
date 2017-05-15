@@ -1,0 +1,11 @@
+---
+# 18:02 2017/5/13 设置
+appid: 'wx56df671c2e5c8bb7', //appId
+secret: 'e6aa6023ff0b180b05b9c2270fb7cf81', //appSecret
+[当前 SDK 使用配置] => {
+  "serverHost": "70139330.qcloud.la",
+  "authServerUrl": "http://10.105.110.23/mina_auth/",
+  "tunnelServerUrl": "https://70139330.ws.qcloud.la",
+  "tunnelSignatureKey": "3d244230f537e0eb2e649f4cf0b2d14f",
+  "networkTimeout": 30000
+}
