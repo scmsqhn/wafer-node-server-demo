@@ -9,7 +9,7 @@ module.exports = {
 	appid: 'wx56df671c2e5c8bb7', //appId
 	secret: 'e6aa6023ff0b180b05b9c2270fb7cf81', //appSecret
 	mch_id: '1436856702', //商户号
-  	api_key: '123456789012345'
-    ,prepay_id_url: 'https://api.mch.weixin.qq.com/pay/unifiedorder'
-    ,notify_url: 'https://'+${host}+'/notify'    
+  	api_key: '123456789012345',
+    prepay_id_url: 'https://api.mch.weixin.qq.com/pay/unifiedorder',
+    notify_url: 'https://'+${host}+'/notify'    
 };
