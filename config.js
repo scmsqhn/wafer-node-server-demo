@@ -11,5 +11,5 @@ module.exports = {
 	mch_id: '1436856702', //商户号
   	api_key: '123456789012345',
     prepay_id_url: 'https://api.mch.weixin.qq.com/pay/unifiedorder',
-    notify_url: 'https://'+${host}+'/notify'    
+    notify_url: 'https://${host}/notify'    
 };
