@@ -78,6 +78,32 @@ code
   date: 'Sun, 14 May 2017 00:10:32 GMT',
   'content-length': '100' }
 {"session_key":"qKk1tnnUTvPsZilP19ztkg==","expires_in":7200,"openid":"o44Xt0ESHNe6SSyVL9aP6B_noTdY"}[ReferenceError: obj is not defined]
+---
+# 15:03 2017/5/15
+如何让配置文件看起来更及简洁
+cat vsftpd.conf |grep -v "^#"|grep -v "^;" |grep -v "^$" 
+自己配置
+write_enable=YES
+local_umask=022
+xferlog_std_format=YES
+listen_ipv6=YES
+userlist_enable=YES
+tcp_wrappers=YES
+---
+网上配置区别
+local_root=/home
+secure_chroot_dir=/var/run/vsftpd
+rsa_cert_file=/etc/ssl/certs/vsftpd.pem
 
-
-
+---
+远程ftp配置问题
+-> TYPE I  
+Connecting
+-> Quit  
+220 (vsFTPd 3.0.2)
+-> USER root  
+331 Permission denied.
+-> PASS *HIDDEN*
+503 Login with USER first.
+Unable to connect
+Disconnected

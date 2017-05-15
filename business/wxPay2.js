@@ -4,10 +4,11 @@ const https = require('https');
 const config = require('../config');
 
 //2小时过期时间，60*60*2
-var expireTime = 7200 - 100;
+var expireTime = 7200000;
 
 // 频繁访问限制,保存每次申请内容
-var sessionData = {};
+var sessionData= {"session_key":"hULnAWfL3CNLoGCw9Nx21g==","expires_in":7200,"openid":"o44Xt0ESHNe6SSyVL9aP6B_noTdY","expires_in_time": 1494827713145}
+
 
 class WxPayHandler {
 
@@ -16,23 +17,45 @@ class WxPayHandler {
 		console.log("new WxPayHandler()")
 	}
 
-	function isTimePassed() {
-		console.log(Date.now())
-		console.log(sessionData.plains_in)
-		console.log(expireTime)
-		return Date.now() - sessionData.plains_in < expireTime ? true : false
+	TimePassed() {
+		console.log("isTimePassed")
+        console.log("Date.now="+Date.now())
+		console.log("explains_in="+sessionData.expires_in_time)
+		console.log("expireTime="+expireTime)
+        var length= 0
+        for (var i in sessionData){
+            length++
+        }
+        console.log("length="+length)
+        if (length>0){
+            console.log(Date.now())
+            console.log(sessionData.expires_in_time)
+            console.log(Date.now()-sessionData.expires_in_time)
+		    if((Date.now() - sessionData.expires_in_time) < expireTime){
+                console.log(Date.now()-sessionData.expires_in_time)
+                console.log("time is not passed")
+                return true
+            }else{
+                console.log("time is passed, reget")
+                return false
+            }
+        }else{
+            return false
+        }
 	}
 
 	getOpenId(config, body) {
-		code = body.code
+		var code = body.code
         console.log(code)
-        orderList = body.orderList //[{period: jine},...]
+        var orderList = body.orderList //[{period: jine},...]
         console.log(orderList)
-        if (isTimePassed()) {
+        var timer = this.TimePassed()
+        console.log("TimePassed="+timer)
+        if (timer) {
 				console.log("time is not passed, obtain from sessionData\\")
 				return sessionData.openid
         }
-        sessionData = {
+        var sessionData = {
         "code": code
 		}
 		console.log("getOpenId============")
@@ -40,27 +63,27 @@ class WxPayHandler {
 		var obj = {}
 		var options =
 			encodeURI('https://api.weixin.qq.com/sns/jscode2session?appid=wx56df671c2e5c8bb7&secret=e6aa6023ff0b180b05b9c2270fb7cf81&js_code=' + code + '&grant_type=authorization_code/')
-			console.log(options)
+			console.log("options="+options)
 			const https = require('https');
 		https.get(options, (res) => {
 			console.log('状态码：', res.statusCode);
 			console.log('请求头：', res.headers);
 			res.on('data', (d) => {
-				//	process.stdout.write(d)
+				process.stdout.write(d)
+                sessionData=eval(d)
 				sessionData = {
-					"openid": d.openid,
-					"session_key": d.session_key,
-					"expires_in": Date.now() + d.expires_in
+					"expires_in_time": Date.now()
 				}
-				app.setData("sessionData": sessionData)
-				console.log(sessionData)
+                console.log("sessionData="+sessionData)
+				this.sessionData= sessionData
+                console.log("openId="+sessionData.openid, "session_key="+sessionData.session_key, "expires_in"+sessionData.expires_in)
 				return sessionData
 			});
 		}).on('error', (e) => {
 			console.error(e);
 		});
 	}
-
+    
 	// 取得微信支付返回的数据，用于生成二维码或是前端js支付数据
 	getWeChatPayid(_spbillId, _traType, _openid, _out_trade_no, _attach, _product_id, _body, _cb, _cbfail) {
 		console.log('客户端请求ip:', _spbillId);
@@ -76,7 +99,7 @@ class WxPayHandler {
 			out_trade_no: _out_trade_no || ('pro_wxpay' + Math.floor((Math.random() * 1000) + 1)), //订单号
 			attach: _attach || '支付功能', //附加信息内容
 			product_id: _product_id || 'wills001', // 商品ID, 若trade_type=NATIVE，此参数必传
-			body: _body || 'H5端支付功能开发', // 支付内容
+			body: _body || '安安福快乐购,支付程序', // 支付内容
 			openid: _openid || '',
 			spbill_create_ip: _spbillId || '127.0.0.1', //客户端ip
 			time_stamp: getTimeStamp(),
@@ -127,6 +150,7 @@ class WxPayHandler {
 								signType: 'MD5'
 							};
 							rePrepayId.paySign = paySign(_signPara);
+                            return rePrepayId.paySign
 						}
 					} else {
 						rePrepayId.msg = getXMLNodeValue('err_code_des', _reBodyXml, false);
@@ -142,7 +166,7 @@ class WxPayHandler {
 	}
 
 	//根据数据格式需求生成签名
-	function paySign(_array) {
+	paySign(_array) {
 		_array = _array || {};
 		//拼接成微信服务器所需字符格式
 		var string = getRawString(_array);
