@@ -18,7 +18,7 @@ module.exports = {
     
     prepay_id_url: 'api.mch.weixin.qq.com/pay/unifiedorder',
     
-    mongodb_url: "mongodb://localhost:27017/admin"
+    mongodb_url: "mongodb://localhost:27017/admin",
     
-//    notify_url: 'https://${host}/notify'
+    notify_url: 'https://70139330.qcloud.la/notify'
 };

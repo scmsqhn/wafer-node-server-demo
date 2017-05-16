@@ -16,6 +16,8 @@ var expireTime = 7200000;
  *  }
  **/
 var WxPayHandler
+var openID = ""
+
 WxPayHandler = {
 
 	constructor: function (name) {
@@ -36,15 +38,22 @@ WxPayHandler = {
 		MongodbHandler.insertDocument("admin", "session", Date.now(), null)
 	},
 
-	TimePassed: function (data) {
+	TimePassed: function (data, callback) {
 		console.log("TimePassed()" + data)
-		var basetime = MongodbHandler.searchMsg("admin", "session", data, null)
-			if (basetime == {}) {
-				basetime = {
-					"intime": Date.now()
-				}
-			}
-			return this.timecal(basetime)
+		var basetime = MongodbHandler.searchMsg("admin", "session", data, callback)
+        try{
+        console.log(Date.now())
+        console.log(basetime)
+        for(var i in JONS.parse(basetime)){
+            console.log(i)
+        }
+        console.log(basetime.intime)
+        if(Date.now()-basetime.intime<7200000){
+            this.openID= data.intime
+            return true
+        }else{
+            return false
+        }}catch(err){return false}
 	},
 
 	getOpenId: function (body) {
@@ -52,45 +61,44 @@ WxPayHandler = {
 		console.log("getOpenId\n")
 		console.log("body=" + body)
 		var code = body.code
-			var intime = body.intimes
+			var intime = body.intime
 			console.log("code=" + code)
-			var timer = this.TimePassed({
-				"name": 'intime'
-			})
-			console.log("TimePassed=" + timer)
-			if (false) {
-				//			if (timer) {
+            var bFlag = this.TimePassed({'expires_in': 7200}, console.log)
+			console.log("BOOLEAN time is passed?==>" + bFlag)
+    		if (bFlag) {
 				console.log("time is not passed, obtain from sessionData\\")
-				myopenid = timer
+				myopenid = intime                
 			} else {
+				MongodbHandler.deleteitem("admin", "session", console.log("删除旧的记录"))
 				console.log("getOpenId============")
 				var obj = {}
 				var options =
 					encodeURI('https://api.weixin.qq.com/sns/jscode2session?appid=wx56df671c2e5c8bb7&secret=e6aa6023ff0b180b05b9c2270fb7cf81&js_code=' + code + '&grant_type=authorization_code/')
 					console.log("options=" + options)
 					const https = require('https');
-				https.get(options, (res) => {
+				https.get(options, (res) =>
+ {
 					console.log('状态码：', res.statusCode);
 					console.log('请求头：', res.headers);
-					res.on('data', (d) => {
-                        console.log("d.session_key,d.openid==")
-                        console.log(res.body.data.session_key, res.body.data.openid)
-                        var sessiondata= {"session_key":res.body.data.session_key,"expires_in":7200,"openid":res.body.data.openid}
-						process.stdout.write(d)
+					res.on('data', (d) =>
+ {
+                        var e= JSON.parse(d)
+                        var sessiondata= {"session_key":e.session_key,"expires_in":7200,"openid":e.openid, "intime": Date.now()}
+                        console.log(e.session_key+e.openid)
 						MongodbHandler.insertDocument("admin", "session", sessiondata, console.log)
-						myopenid = d.openid
+						myopenid = e.openid
                         console.log("myopenid + d:")
                         console.log(myopenid + d)
                			this.getWeChatPayid(null, null, myopenid, null, null, null, null, null, null)
 
 					});
-				}).on('error', (e) => {
+				}).on('error', (e) =>
+ {
 					console.error("getopenid error==");
 					console.error(e);
 				});
 			}
 	},
-
 	// 取得微信支付返回的数据，用于生成二维码或是前端js支付数据
 	getWeChatPayid: function (_spbillId, _traType, _openid, _out_trade_no, _attach, _product_id, _body, _cb, _cbfail) {
 
@@ -99,18 +107,19 @@ WxPayHandler = {
 		var _preArray = {
 			appid: config.appid, //小程序ID
 			mch_id: config.mch_id, //微信支付商户号
-			notify_url: config.notify_url, //回调函数
 			device_info: "WEB", //收银设备,公众号内填写WEB
 			nonce_str: this.getNonceStr(), //生成随机数
-			out_trade_no: _out_trade_no || ('pro_wxpay' + Math.floor((Math.random() * 1000) + 1)), //订单号
-			attach: _attach || '支付功能', //附加信息内容
-			product_id: _product_id || 'wills001', // 商品ID, 若trade_type=NATIVE，此参数必传
+			notify_url: config.notify_url, //回调函数
 			body: _body || '安安福快乐购,支付程序', // 支付内容
-			openid: _openid || '',
-			spbill_create_ip: _spbillId || '127.0.0.1', //客户端ip
-			time_stamp: this.getTimeStamp(),
-			trade_type: _traType || 'JSAPI',
+			out_trade_no: _out_trade_no || ('pro_wxpay' + Math.floor((Math.random() * 1000) + 1)), //订单号
 			total_fee: 1, //支付金额，单位分
+			attach: _attach || '支付功能', //附加信息内容
+			spbill_create_ip: _spbillId || '127.0.0.1', //客户端ip
+//			product_id: _product_id || 'wills001', // 商品ID, 若trade_type=NATIVE，此参数必传
+            notify_url: "https://70139330.qcloud.la/notify",
+			trade_type: _traType || 'JSAPI',
+			openid: _openid || '',
+			time_start: this.getTimeStamp(),
 			limit_pay: "no_credit", //不支持支付信用卡支付
 		};
 		console.log(_preArray)
@@ -129,15 +138,17 @@ WxPayHandler = {
 			body: _formData
 		}
 		console.log("options to get the msg=" + options)
-		const req = https.request(options, (res) => {
+		const req = https.request(options, (res) =>
+ {
 				console.log('状态码：', res.statusCode);
 				console.log('请求头：', res.headers);
-				res.on('data', (d) => {
+				res.on('data', (d) =>
+ {
 					console.log("res.on(data)")
 					process.stdout.write(d);
 					if (res.statusCode == 200) {
 						//返回来的XML数据
-						var _reBodyXml = body.toString('uft-8');
+						var _reBodyXml = res.body.toString('uft-8');
 						console.log("_reBodyXml=" + _reBodyXml)
 						//				console.log('return xml data ==', _reBodyXml);
 						//取得return_code进行成功与否判断
@@ -147,7 +158,7 @@ WxPayHandler = {
 						var rePrepayId = {
 							prepay_id: '',
 							code_url: '',
-							timestamp: _preArray.time_stamp,
+							timestamp: _preArray.time_start,
 							nonceStr: _preArray.nonce_str,
 							paySign: '',
 							msg: '请求prepay_id'
@@ -165,7 +176,7 @@ WxPayHandler = {
 									console.log("JSAPI")
 									var _signPara = {
 										appid: config.appid,
-										timeStamp: _preArray.time_stamp,
+										timeStamp: _preArray.time_start,
 										nonceStr: _preArray.nonce_str,
 										package: 'prepay_id=' + rePrepayId.prepay_id,
 										signType: 'MD5'
@@ -220,7 +231,10 @@ WxPayHandler = {
 		_array = _array || {};
 		//拼接成微信服务器所需字符格式
 		var string = this.getRawString(_array);
-		//key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+		//key为在微信商户平台(pay.weixin.qq.com)-->
+/*账户设置-->
+API安全-->
+密钥设置*/
 		var key = config.api_key;
 		string = string + '&key=' + key;
 		var crypto = require('crypto');
@@ -247,14 +261,13 @@ WxPayHandler = {
 		var keys = Object.keys(_array);
 		var _xmlData = '<xml>';
 		keys.forEach(function (key) {
-			_xmlData += '<' + key + '>' + _array[key] + '</' + key + '>';
+			_xmlData+='<'+key+'>' + _array[key]+'</'+key+'>';
 		});
 
 		//取得签名加密字符串
 		var _paySign = this.paySign(_array);
-		_xmlData += '<sign>' + _paySign + '</sign>';
+		_xmlData += '<sign>'+_paySign +'</sign>';
 		_xmlData += '</xml>';
-
 		// console.log('xml data ===', _xmlData);
 		return _xmlData;
 	}
