@@ -107,3 +107,10 @@ Connecting
 503 Login with USER first.
 Unable to connect
 Disconnected
+---
+# 14:54 2017/5/16
+Error: connect ECONNREFUSED 127.0.0.1:27017
+报错
+Error: More than 1 database name in URL
+
+这两个错误都和mongod 有关系

@@ -397,6 +397,7 @@ wechat.getWeChatPayid = function(_spbillId, _traType, _openid, _out_trade_no, _a
                                 signType: 'MD5'
                             };
                         rePrepayId.paySign = paySign(_signPara);
+                        return rePrepayId
                    }                   
                 } else {
                     rePrepayId.msg = getXMLNodeValue('err_code_des', _reBodyXml, false);

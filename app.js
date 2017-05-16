@@ -8,7 +8,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const config = require('./config');
-
+var path = require('path');
+//var jade = require('jade');
+var fs = require('fs');
+var mongodb = require("mongodb");
+//var monk = require('monk');
+//var db = monk('localhost:27017/data');
+//H:\node-weapp-demo\app.js
 const app = express();
 
 app.set('query parser', 'simple');
