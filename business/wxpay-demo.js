@@ -62,15 +62,15 @@ wechat.getWxConfig = function(_url, _cb) {
     if (jsapiTicketData && jsapiTicketData.timestamp) {
         //判断过期时间是否已到
         var t = getTimeStamp() - jsapiTicketData.timestamp;
-        console.log('the gap of the lasttime to get jsapi-ticket : ', t);
+        //console.log('the gap of the lasttime to get jsapi-ticket : ', t);
         // jsapi-ticket未过期，使用缓存数据进行签名处理
         if (t < expireTime) {
-            console.log('use cache data to get jsapi-ticket!!');
+            //console.log('use cache data to get jsapi-ticket!!');
             // 取得网页所需的数据，签名，appid,timestamp, noncestr等
             var _signData = reSignature(_url, jsapiTicketData.ticket);
             _cb && _cb(_signData);
         } else { 
-            console.log('time is out, reget jsapi-ticket!!!');
+            //console.log('time is out, reget jsapi-ticket!!!');
             //过期时间已到，重新取得网页所需的数据，签名，appid,timestamp, noncestr等
             wechat.getJsapiTicket(function(_tk) {
                 var _signData = reSignature(_url, _tk);
@@ -78,7 +78,7 @@ wechat.getWxConfig = function(_url, _cb) {
             });
         }
     } else {
-        console.log('first time to get jsapi-ticket！');
+        //console.log('first time to get jsapi-ticket！');
         //该页面首次请求，取得网页所需的数据，签名，appid,timestamp, noncestr等
         wechat.getJsapiTicket(function(_tk) {
                 var _signData = reSignature(_url, _tk);
@@ -130,7 +130,7 @@ function getXmlFormat(_array) {
     _xmlData += '<sign>' + _paySign + '</sign>';
     _xmlData += '</xml>';
 
-    // console.log('xml data ===', _xmlData);
+    // //console.log('xml data ===', _xmlData);
     return _xmlData;
 };
 
@@ -157,10 +157,10 @@ function reSignature(_url, _ticket) {
     var noncestr = getNonceStr();
 
     var str = 'jsapi_ticket=' + _ticket + '&noncestr='+ noncestr + '&timestamp=' + timestamp + '&url=' + _url;
-    console.log(str);
+    //console.log(str);
     var signature = crypto.createHash('sha1').update(str).digest('hex');
 
-    console.log('jsapi signature is ', signature);
+    //console.log('jsapi signature is ', signature);
     var _dataSign = { 
                         appId: wechat.config.appId,
                         timestamp: timestamp,
@@ -190,17 +190,17 @@ wechat.getGloAcessToken = function(_cb) {
     // 决断是否是首次获取该数据
     if (gloAccessTokenData.token && gloAccessTokenData.timestamp) {
         var t = getTimeStamp() - gloAccessTokenData.timestamp;
-        console.log('the gap of last time to get glo-access-token is : ', t);
+        //console.log('the gap of last time to get glo-access-token is : ', t);
         // 数据是否过期判断
         if (t < expireTime) {
-            console.log('get the cache access-token data!');
+            //console.log('get the cache access-token data!');
             _cb && _cb(gloAccessTokenData.token);
         } else {
-            console.log('expiretime is out，reget the access-token data！');
+            //console.log('expiretime is out，reget the access-token data！');
             justGetAccessToken(_cb);          
         }
     } else {
-        console.log('firt time to connect, get the access-token data!!');
+        //console.log('firt time to connect, get the access-token data!!');
         justGetAccessToken(_cb);         
     }
 };
@@ -210,11 +210,11 @@ function justGetAccessToken(_cb) {
     var _tokenUrl = wechat.config.accessTokenUrl + '&appId=' + wechat.config.appId + '&secret=' + wechat.config.appSecret;
     request.get(_tokenUrl, function(error, response, body) {
         if (error) {
-            console.log('getToken error1111', error);
+            //console.log('getToken error1111', error);
         }
         else {
             try {
-                console.log('success to get the access-token data ===', JSON.parse(body));
+                //console.log('success to get the access-token data ===', JSON.parse(body));
                 var _token = JSON.parse(body).access_token;
                 // 将取得的access-token保存到内存
                 gloAccessTokenData = {
@@ -224,7 +224,7 @@ function justGetAccessToken(_cb) {
                 _cb && _cb(_token);
             }
             catch (e) {
-                console.log('getToken error2222', e);
+                //console.log('getToken error2222', e);
             }
         }
     });
@@ -235,17 +235,17 @@ wechat.getJsapiTicket = function(_cb) {
     // 先判断内存（缓存）中是否已有jsapi-ticket数据
     if (jsapiTicketData && jsapiTicketData.timestamp) {
         var t = getTimeStamp() - jsapiTicketData.timestamp;
-        console.log('the gap of last time to get jsapi-ticket is : ', t);
+        //console.log('the gap of last time to get jsapi-ticket is : ', t);
         // 数据是否过期判断
         if (t < expireTime) {
-            console.log('get the cache access-token data!');
+            //console.log('get the cache access-token data!');
             _cb && _cb(jsapiTicketData.ticket);
         } else {
-            console.log('expiretime is out，reget the jsapi-ticket data！');
+            //console.log('expiretime is out，reget the jsapi-ticket data！');
             justGetJsapiTicket(_cb);          
         }
     } else {
-        console.log('first time to get the jsapi-ticket data！');
+        //console.log('first time to get the jsapi-ticket data！');
         justGetJsapiTicket(_cb); 
     }   
 };
@@ -257,12 +257,12 @@ function justGetJsapiTicket(_cb) {
         var _ticUrl = wechat.config.ticketUrl + _tk + '&type=jsapi';
         request.get(_ticUrl, function(error, res, body) {
             if (error) {
-                console.log('getJsapiTicket error1111', error);
+                //console.log('getJsapiTicket error1111', error);
             }
             else {
                 try {
                     var _ticket = JSON.parse(body).ticket;
-                    console.log('get new ticket success--', _ticket);                    
+                    //console.log('get new ticket success--', _ticket);                    
                     var timestamp = getTimeStamp();
 
                     //将token与ticket数据保存在内存中
@@ -275,7 +275,7 @@ function justGetJsapiTicket(_cb) {
                     _cb && _cb(_ticket);  
                 }
                 catch (e) {
-                    console.log('getJsapiTicket error2222', e);
+                    //console.log('getJsapiTicket error2222', e);
                 }
             }
         });
@@ -299,7 +299,7 @@ wechat.getWebAuthCodeUrl = function(_path, _scope) {
         state: 'STATA'
     };
     var _webCodeUrl = wechat.config.webAuthCodeUrl +  qs.stringify(_codeParams) + '#wechat_redirect';
-    console.log('web auth get code', _webCodeUrl);
+    //console.log('web auth get code', _webCodeUrl);
 
      return _webCodeUrl;
 };
@@ -314,7 +314,7 @@ wechat.getWebAuthToken = function(_code, _cb, _cbfail) {
       };
 
     var _webTokenUrl = wechat.config.webAuthTokenUrl + qs.stringify(_tokenParams);
-    console.log('web auth get access_token url: ', _webTokenUrl);
+    //console.log('web auth get access_token url: ', _webTokenUrl);
 
     request({
         method: 'get',
@@ -322,16 +322,16 @@ wechat.getWebAuthToken = function(_code, _cb, _cbfail) {
     }, function(err, res, body) {
         if (body) {
             var _data = JSON.parse(body);
-            console.log('the openid of wx-user is ===', _data.openid);
+            //console.log('the openid of wx-user is ===', _data.openid);
             _cb && _cb(_data);
         } else {
-            console.log('fail to get the web auth-token&&openid, error msg is ', err);
+            //console.log('fail to get the web auth-token&&openid, error msg is ', err);
           }
     });
 };
 // 取得微信支付返回的数据，用于生成二维码或是前端js支付数据
 wechat.getWeChatPayid = function(_spbillId, _traType, _openid, _out_trade_no, _attach, _product_id, _body, _cb, _cbfail){
-    console.log('客户端请求ip:', _spbillId);
+    //console.log('客户端请求ip:', _spbillId);
 
     //取得需向微信服务器发送的数据,且通过该数据组进行xml与sign数据生成
     //数据集必须包含所有微信端所必须的字段数据信息
@@ -364,10 +364,10 @@ wechat.getWeChatPayid = function(_spbillId, _traType, _openid, _out_trade_no, _a
         if (!err && response.statusCode == 200) {
             //返回来的XML数据
             var _reBodyXml = body.toString('uft-8');
-            console.log('return xml data ==', _reBodyXml);
+            //console.log('return xml data ==', _reBodyXml);
             //取得return_code进行成功与否判断
             var _reCode = getXMLNodeValue('return_code', _reBodyXml, false);
-            // console.log('return code', _reCode);
+            // //console.log('return code', _reCode);
 
             var rePrepayId = {
                 prepay_id: '',
@@ -449,11 +449,11 @@ wechat.wxPayCallback = function(_req, _cb) {
     var _payInfo = _reBody.xml;
 
     if (_payInfo.return_code == 'SUCCESS') {
-        console.log('用户成功支付金额：', _payInfo.cash_fee);
-        console.log('用户openid：', _payInfo.openid);
+        //console.log('用户成功支付金额：', _payInfo.cash_fee);
+        //console.log('用户openid：', _payInfo.openid);
     } else {
-        console.log('用户支付失败：', _payInfo.return_msg);
-        console.log('用户openid：', _payInfo.openid);
+        //console.log('用户支付失败：', _payInfo.return_msg);
+        //console.log('用户openid：', _payInfo.openid);
     }
     var    xml = '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
 

@@ -114,3 +114,60 @@ Error: connect ECONNREFUSED 127.0.0.1:27017
 Error: More than 1 database name in URL
 
 这两个错误都和mongod 有关系
+---
+# 404报错，参数比对
+	<appid>wx56df671c2e5c8bb7</appid>
+	<mch_id>1436856702</mch_id>
+	<device_info>WEB</device_info>
+	<nonce_str>fmg9tlu6d6de7b9</nonce_str>
+	<notify_url>https://70139330.qcloud.la/notify</notify_url>
+    <body>安安福快乐购,支付程序</body>
+	<out_trade_no>pro_wxpay882</out_trade_no>
+	<total_fee>1</total_fee>
+    <attach>支付功能</attach>
+	<spbill_create_ip>127.0.0.1</spbill_create_ip>
+	<trade_type>JSAPI</trade_type>
+	<openid></openid>
+	<time_start>1494952585</time_start>
+	<limit_pay>no_credit</limit_pay>
+    <sign>A1BB57E87F45A28C6440259053A6C89D</sign>
+---
+   <appid>wx2421b1c4370ec43b</appid>
+   <attach>支付测试</attach>
+   <body>JSAPI支付测试</body>
+   <mch_id>10000100</mch_id>
+   <detail><![CDATA[{ "goods_detail":[ { "goods_id":"iphone6s_16G", "wxpay_goods_id":"1001", "goods_name":"iPhone6s 16G", "quantity":1, "price":528800, "goods_category":"123456", "body":"苹果手机" }, { "goods_id":"iphone6s_32G", "wxpay_goods_id":"1002", "goods_name":"iPhone6s 32G", "quantity":1, "price":608800, "goods_category":"123789", "body":"苹果手机" } ] }]]></detail>
+   <nonce_str>1add1a30ac87aa2db72f57a2375d8fec</nonce_str>   <notify_url>http://wxpay.wxutil.com/pub_v2/pay/notify.v2.php</notify_url>
+   <openid>oUpF8uMuAJO_M2pxb1Q9zNjWeS6o</openid>
+   <out_trade_no>1415659990</out_trade_no>
+   <spbill_create_ip>14.23.150.211</spbill_create_ip>
+   <total_fee>1</total_fee>
+   <trade_type>JSAPI</trade_type>
+   <sign>0CB01533B8C1EF103065174F50BCA001</sign>
+
+---
+# 17-05-17
+<xml>
+  <appid>wx56df671c2e5c8bb7</appid>
+  <mch_id>1436856702</mch_id>
+  <nonce_str>1mkig80igxecdi</nonce_str>
+  <notify_url>https://70139330.qcloud.la/notify</notify_url>
+  <body>ananshopping</body>
+  <out_trade_no>pro_wxpay761</out_trade_no>
+  <total_fee>1</total_fee>
+  <spbill_create_ip>10.9.38.224</spbill_create_ip>
+  <trade_type>JSAPI</trade_type>
+  <openid>o44Xt0ESHNe6SSyVL9aP6B_noTdY</openid>
+  <sign>A295AD893147D83B6C3E0F425CC4713D</sign>
+</xml>
+---
+# node-json
+字符串分割
+
+---
+# 10:45 2017/5/17
+支付基本调通
+需要正确的店名和api_key,暂时无法取得;
+
+## 调试界面 和 数据库
+

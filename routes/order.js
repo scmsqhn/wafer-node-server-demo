@@ -15,7 +15,7 @@ module.exports = (req, response) =>
 	    //console.log("data="+req.body.data.period)
         
         var codedata = {"intime": Date.now(), "code": req.body.code}
-	    var openID=WxPayHandler.getOpenId(codedata)
+	    WxPayHandler.getOpenId(codedata)
         response.writeHead(200, {"Content-Type": "text/plain"});    
         response.write("res end from order","utf8")
 //        res.write(toCustomResign,"utf8")

@@ -26,7 +26,7 @@ class OrderHandler {
 	}
 	
 	checkOrder(instr){
-		console.log(instr)
+		//console.log(instr)
 		
 	}
 	
