@@ -2,11 +2,13 @@
 
 const LoginService = require('qcloud-weapp-server-sdk').LoginService;
 
-module.exports = (req, res) => {
+module.exports = (req, res) =>
+ {
     const loginService = LoginService.create(req, res);
 
     loginService.check()
-        .then(data => {
+        .then(data =>
+ {
             res.json({
                 'code': 0,
                 'message': 'ok',

@@ -39,13 +39,15 @@ app.use(bodyParser.json());
 app.use('/', require('./routes'));
 
 // 打印异常日志
-process.on('uncaughtException', error => {
+process.on('uncaughtException', error =>
+ {
 	console.log(error);
 });
 
 // 启动server
 if (!module.parent) {
-	http.createServer(app).listen(config.port, () => {
+	http.createServer(app).listen(config.port, () =>
+ {
 		console.log('Express server listening on port: %s', config.port);
 	});
 }

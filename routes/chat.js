@@ -7,9 +7,13 @@ function $(Nid) {
 
 const html =
 `<!DOCTYPE html>
+
 <html>
+
 <head>
+
 <script>
+
 function tuling(stringin){
 	console.log("===")
 	console.log("tuling in")
@@ -46,17 +50,21 @@ function tuling(stringin){
 		'Content-Length': Buffer.byteLength(postData)
 	  }};
 
-	var req = http.request(options, (res) => {
+	var req = http.request(options, (res) =>
+ {
 	  res.setEncoding('utf8');
-	  res.on('data', (chunk) => {
+	  res.on('data', (chunk) =>
+ {
 		console.log($(chunk));
 	  });
-	  res.on('end', () => {
+	  res.on('end', () =>
+ {
 		console.log('响应中已无数据。');
 	  });
 	});
 
-	req.on('error', (e) => {
+	req.on('error', (e) =>
+ {
 	  console.log($(e.message));
 	});
 
@@ -66,18 +74,32 @@ function tuling(stringin){
 };	
 
 </script>
+
 </head>
+
 <body>
-c1: <input type="text" id="c1" value=""><br>
-s1: <input type="text" id="s1" value="您好,有什么可以为您做的?"><br><br>
+
+c1: <input type="text" id="c1" value="">
+<br>
+
+s1: <input type="text" id="s1" value="您好,有什么可以为您做的?">
+<br>
+<br>
+
 <input type="button" value="发出" onClick='tuling("123")'>
-<p>机器人客服测试</p>
+
+<p>
+机器人客服测试</p>
+
 </body>
+
 </html>
+
 `;
 
 
-module.exports = (req, res) => {
+module.exports = (req, res) =>
+ {
 	/* console.log(html.c1)
 	console.log(html.s1)
 	console.log(req)

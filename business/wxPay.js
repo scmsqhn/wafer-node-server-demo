@@ -140,9 +140,6 @@ function getXmlFormat(_array) {
 function getXMLNodeValue(node_name, xml, flag){
     flag = flag || false;
     var _reNodeValue = '';
-    console.log(node_name)
-    console.log(xml)
-    console.log(flag)
     var tmp = xml.split('<' + node_name + '>');
     if (tmp) {
         var _tmp = tmp[1].split('</' + node_name + '>')[0];
