@@ -168,6 +168,37 @@ Error: More than 1 database name in URL
 # 10:45 2017/5/17
 支付基本调通
 需要正确的店名和api_key,暂时无法取得;
-
+---
 ## 调试界面 和 数据库
+Unable to fetch Collection stats
+调用的目标发生了异常。
+Type: System.Reflection.TargetInvocationException
+Stack:    在 System.RuntimeMethodHandle._InvokeConstructor(Object[] args, SignatureStruct& signature, IntPtr declaringType)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.MD5.Create()
+   在 MongoDB.Driver.MongoUtils.Hash(String text)
+   在 MongoDB.Driver.Internal.MongoConnection.Authenticate(MongoServer server, String databaseName, MongoCredentials credentials)
+   在 MongoDB.Driver.Internal.MongoConnection.CheckAuthentication(MongoServer server, MongoDatabase database)
+   在 MongoDB.Driver.MongoServer.AcquireConnection(MongoDatabase database, Boolean slaveOk)
+   在 MongoDB.Driver.Internal.MongoCursorEnumerator`1.GetFirst()
+   在 MongoDB.Driver.Internal.MongoCursorEnumerator`1.MoveNext()
+   在 MongoDB.Driver.MongoDatabase.GetCollectionNames()
+   在 MangoUI.MCollections.GetAll(String db)
+   在 MangoUI.MCollections.GetIV(String db)
+   在 MangoUI.ComDBOverview.RenderMe()
+
+
+此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+Type: System.InvalidOperationException
+Stack:    在 System.Security.Cryptography.MD5CryptoServiceProvider..ctor()
+---
+## 13:47 2017/5/19
+插入mongoimport 导入数据
+成功
+mongoimport -h localhost --port 27017 -d ananfu -c goodsList -f BUYUNITS,DESC,IMGURL,IMGURL2,IMGURL3,IMGURL4,NAME,TAG,PERIOD,TAKERATE,TAKECHANCES,TOTALCHANCES,WINNER --ignoreBlanks --file /data/release/node-weapp-demo/goodsList.csv --type csv --headerline --uperset
+
+工作不能拖沓,也不能求快,找好节奏,提高效率;
+
+
 

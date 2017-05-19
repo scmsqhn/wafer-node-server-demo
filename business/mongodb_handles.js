@@ -8,6 +8,14 @@ var DB_URL = config.mongodb_url
 var assert = require('assert');
 var server = new mongodb.Server('127.0.0.1', 27017, {auto_reconnect:  true});
 var db = new mongodb.Db('mydb', server, {safe: true});
+
+/**
+ * 数据库: ananfu 数据库 /data/db
+ *   表格: buyhistory 下单历史 openid 主key
+ *   表格: goodsList 商品名录 perioud 主key
+ *   表格: loadrate 进度表格 peroud 主key
+ **/
+
 /**
  * 数据库数据格式
  * 表格1 业务表格:
