@@ -45,7 +45,7 @@ WxPayHandler = {
 		//true: use  install data
 		//false: re-get new data
 		//console.log("TimePassed()" + data)
-		MongodbHandler.queryData("admin", "session", data, callback)
+		MongodbHandler.queryData("ananfu", "session", data, callback)
 	},
 	getOpenId: function (body) {
 		//console.log("getOpenId\n")
@@ -65,7 +65,7 @@ WxPayHandler = {
 			} else {
                 console.log("basetime="+basetime)
 				console.log("time is passed, obtain new openID\n")
-				MongodbHandler.deleteData("admin", "session", {"expires_in":7200}, console.log)
+				MongodbHandler.deleteData("ananfu", "session", {"expires_in":7200}, console.log)
 				//console.log("getOpenId============")
 				var obj = {}
 				var options =
@@ -85,7 +85,7 @@ WxPayHandler = {
 						}
                         basetime= Date.now()
 						//console.log(e.session_key + e.openid)
-						MongodbHandler.insertData("admin", "session", sessiondata, console.log)
+						MongodbHandler.insertData("ananfu", "session", sessiondata, console.log)
 						myopenid = e.openid
 							console.log("myopenid:"+myopenid)
 							//console.log(myopenid + d)

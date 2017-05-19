@@ -73,16 +73,24 @@ MongodbHandler = {
 	queryData: function (db, col, whereStr, callback) {
 		MongoClient.connect(DB_URL, function (err, db) {
 			if (err) {
-				//////console.log(err)
+				console.log(err)
 			} else {
-                //////console.log("连接成功！");
+                console.log("mongo连接成功！");
 				var collection = db.collection(col);
-                //////console.log(whereStr)
-				collection.find().toArray(function (err, result) {
+                console.log("COUNT=")
+//                console.log(collection.find(whereStr).count())
+				collection.find(whereStr).toArray(function (err, result) {
 					if (err) {
 						console.log('Error:' + err);
                         return
 					}else{
+//                        console.log(result)
+                        for(var i in result){
+//                            console.log(result)
+                        }
+                        console.log('result')
+                        console.log(result)
+                        console.log('callback')
     					callback(result);
                     }
                     db.close();
@@ -115,13 +123,13 @@ MongodbHandler = {
 	insertData: function (db, col, data, callback) {
 		MongoClient.connect(DB_URL, function (err, db) {
 			if (err) {
-				//////console.log(err)
+				console.log(err)
 			} else {
-                //////console.log("连接成功！");
+                console.log("连接成功！");
 				var collection = db.collection(col);
 				collection.insert(data, function (err, result) {
 					if (err) {
-						//////console.log('Error:' + err);
+						console.log('Error:' + err);
 						return;
 					}
 					callback(result);
