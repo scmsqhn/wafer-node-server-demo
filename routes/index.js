@@ -9,6 +9,7 @@ router.get('/user', require('./user'));
 router.all('/tunnel', require('./tunnel'));
 router.all('/order', require('./order'));
 router.all('/sync', require('./sync'));
+router.all('/fileserver', require('./fileserver'));
 
 
 module.exports = router;

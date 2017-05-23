@@ -199,6 +199,11 @@ Stack:    在 System.Security.Cryptography.MD5CryptoServiceProvider..ctor()
 mongoimport -h localhost --port 27017 -d ananfu -c goodsList -f BUYUNITS,DESC,IMGURL,IMGURL2,IMGURL3,IMGURL4,NAME,TAG,PERIOD,TAKERATE,TAKECHANCES,TOTALCHANCES,WINNER --ignoreBlanks --file /data/release/node-weapp-demo/goodsList.csv --type csv --headerline --uperset
 
 工作不能拖沓,也不能求快,找好节奏,提高效率;
+---
+用nodejs搭建一个文件服务器
+
+
+
 
 
 
