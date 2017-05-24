@@ -123,7 +123,7 @@ module.exports = (req, res) => {
 						console.log(err)
 					} else {
 						console.log("mongo连接成功！");
-						var collection = db.collection("goodsList");
+						var collection = db.collection("buyhistory");
 						collection.find().toArray(function (err, result) {
 							if (err) {
 								console.log('\nError:' + err);

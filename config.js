@@ -22,5 +22,8 @@ module.exports = {
     
     mongodb_url: "mongodb://localhost:27017/ananfu",
     
-    notify_url: 'https://70139330.qcloud.la/notify'
+    notify_url: 'https://70139330.qcloud.la/notify',
+    
+    sync: 'https://70139330.qcloud.la/sync'
+    
 };
