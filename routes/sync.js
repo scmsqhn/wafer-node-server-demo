@@ -210,6 +210,7 @@ module.exports = (req, res) => {
 		"item": req.query.item,
 		"openid": req.query.openid,
 		"data": req.query.data,
+		"period": req.query.period,
 	}
 	//  console.log("req="+codedata)
 	if (codedata.code == "1001") { //obtains goodsList
@@ -275,6 +276,34 @@ module.exports = (req, res) => {
 			}
 		});
 
+	}
+   	if (codedata.code == "1005") {
+		console.log("codedata", codedata)
+		MongoClient.connect(config.mongodb_url, function (err, db) {
+			if (err) {
+				console.log(err)
+			} else {
+                var querystatus= parseInt(codedata.period)
+                console.log('1'+parseInt(codedata.period)+'1')
+				console.log("MONGO 连接成功！");
+				var collection = db.collection("goodsList");
+                console.log("抽取PERIOD=", querystatus)
+				collection.find({}).toArray(function (err, result) {
+					if (err) {
+						console.log('\nError:' + err);
+						return
+					} else {
+						var buyhist = JSON.stringify(result)
+						console.log("\n读取用户下单信息返回成功: result= ", buyhist)
+						res.writeHeader(200, {
+								'Content-Type': 'application/json'
+							});
+						res.end(buyhist)
+					}
+				});
+				db.close();
+			}
+		});
 	}
 	//  console.log('listening on localhost:8080');
 };

@@ -204,6 +204,8 @@ mongoimport -h localhost --port 27017 -d ananfu -c buyhistory -f BUYUNITS,DESC,I
 
 mongoimport -h localhost --port 27017 -d ananfu -c goodsList --file  /data/release/node-weapp-demo/goodsList.csv --type csv --headerline
 
+尽可能少的减少数据交互
+
 
 
 
