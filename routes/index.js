@@ -11,4 +11,5 @@ router.all('/order', require('./order'));
 router.all('/sync', require('./sync'));
 router.all('/fileserver', require('./fileserver'));
 router.all('/buyhistory', require('./buyhistory'));
+router.all('/addr', require('./addr'));
 module.exports = router;
