@@ -12,4 +12,7 @@ router.all('/sync', require('./sync'));
 router.all('/fileserver', require('./fileserver'));
 router.all('/buyhistory', require('./buyhistory'));
 router.all('/addr', require('./addr'));
+router.all('/file', require('./file'));
+router.all('/images', require('./images'));
+router.all('/images/.*', require('./images'));
 module.exports = router;

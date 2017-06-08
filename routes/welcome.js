@@ -54,45 +54,24 @@ const html =
 
     <div id="container">
 
-        <h1>
-腾讯云微信小程序服务端 Demo - Node.js</h1>
+        <h1>腾讯云微信小程序服务端 Demo - Node.js</h1>
 
-        <p>
-会话管理服务</p>
+        <p>会话管理服务</p>
 
         <ul>
+            <li><a href="/login">登录服务</a></li>
 
-            <li>
-<a href="/login">
-登录服务</a>
-</li>
-
-            <li>
-<a href="/user">
-检查登录</a>
-</li>
+            <li><a href="/user">检查登录</a></li>
 
         </ul>
-
-        <p>
-信道服务</p>
+        <p>信道服务</p>
 
         <ul>
-
-            <li>
-<a href="/tunnel">
-获得信道地址</a>
-</li>
-
-            <li>
-<a href="/order">
-order</a>
-</li>
-
+            <li><a href="/tunnel">获得信道地址</a></li>
+            <li><a href="/fileserver2">文件服务</a></li>
+            <li><a href="/order">order</a></li>
         </ul>
-
     </div>
-
 </body>
 
 </html>

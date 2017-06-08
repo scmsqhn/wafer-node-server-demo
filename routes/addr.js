@@ -14,7 +14,7 @@ module.exports = (req, res) => {
 			console.log('\n微信服务器返回 状态码：', res.statusCode);
 			console.log('\n微信服务器返回 请求头：', res.headers);
 			res.on('data', (d) => {
-            console.log("\n获得地名: "JSON.stringify(d))
+            console.log("\n获得地名: ", JSON.stringify(d))
             finalres.writeHeader(200, {'Content-Type': 'text/html;charset=utf-8', 'transfer-encoding': 'chunked'});
             finalres.end(JSON.stringify(d))
 			});

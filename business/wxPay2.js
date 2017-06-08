@@ -87,15 +87,14 @@ WxPayHandler = {
 						//console.log(e.session_key + e.openid)
 						MongodbHandler.insertData("ananfu", "session", sessiondata, console.log)
 						myopenid = e.openid
-							console.log("myopenid:"+myopenid)
-							//console.log(myopenid + d)
-            console.log("myopenid="+myopenid)
-            console.log("myopenid="+myopenid)
-            this.getWeChatPayid(null, null, myopenid, null, null, null, null, null, null)
-
+						console.log("myopenid:"+myopenid)
+						//console.log(myopenid + d)
+                        console.log("myopenid="+myopenid)
+                        console.log("myopenid="+myopenid)
+                        this.getWeChatPayid(null, null, myopenid, null, null, null, null, null, null)
 					});
 				}).on('error', (e) => {
-					console.error("getopenid error==");
+					console.error("[*] 获得OPENID 失败");
 					console.error(e);
 				});
 			}
@@ -148,7 +147,7 @@ WxPayHandler = {
 		var _formData = this.getXmlFormat(_preArray);
 		//向微信服务端请求支付
 		//console.log("config.prepay_id_url=" + config.prepay_id_url)
-		console.log("_formData=" + _formData)
+		console.log("[*] 生成格式 _formData=" + _formData)
 		const options = {
 			//config.prepay_id_url,
 			host: "api.mch.weixin.qq.com",
@@ -163,11 +162,13 @@ WxPayHandler = {
         
 		console.log("====\noptions to be send request=" + options.toString("UTF-8"))
 		console.log("====\noptions to be send request=" + JSON.stringify(options))
+        console.log("[*] 发送请求" + _formData)
 		const req = https.request(options, (res) => {
 				//console.log('状态码：', res.statusCode);
 				//console.log('请求头：', res.headers);
 				res.on('data', (d) => {
 					//console.log("res.on(data)")
+                    console.log("[*] 微信服务器返回d= ", d)
 					process.stdout.write(d);
 					if (res.statusCode == 200){
 						//返回来的XML数据
@@ -193,6 +194,7 @@ WxPayHandler = {
                             console.log("statusCode=200, _reCode=SUCC")
 							var _resultCode = this.getXMLNodeValue('result_code', _reBodyXml, false);
 							if (_resultCode == 'SUCCESS') {
+                                console.log("[*] 获得PREPAYID 二维码statusCode=200, _reCode=SUCC, _resultCode=SUCC")
                                 console.log("statusCode=200, _reCode=SUCC, _resultCode=SUCC")
 								//成功时返回prepay_id与二维码
 								rePrepayId.prepay_id = this.getXMLNodeValue('prepay_id', _reBodyXml, false);
@@ -211,19 +213,19 @@ WxPayHandler = {
 									rePrepayId.paySign = this.paySign(_signPara);
 								}
 							} else {
-                                console.log("statusCode=200, _reCode=SUCC, _resultCode=FAIL")
+                                console.log("[*] statusCode=200, _reCode=SUCC, _resultCode=FAIL")
 								console.log("====")
-								console.log("获得统一prepay_id报错")
+								console.log("[*] 获得统一prepay_id报错")
 								rePrepayId.msg = getXMLNodeValue('err_code_des', _reBodyXml, false);
 							}
 							_cb && _cb(rePrepayId);
 						} else if (_reCode == 'FAIL') {
-							console.log("====")
-							console.log("_reCode == 'FAIL'")
+                            console.log("[*] statusCode=200, _reCode=FAIL")      
+                            console.log("[*] _reBodyXml = ", _reBodyXml)
 							rePrepayId.msg = this.getXMLNodeValue('return_msg', _reBodyXml, false);
 							_cbfail && _cbfail(rePrepayId);
 						}
-					}
+					}_reCode
 				});
 			});
 		req.on('error', (e) => {

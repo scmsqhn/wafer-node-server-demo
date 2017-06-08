@@ -112,6 +112,7 @@ class WxPayHandler {
 			body: _formData
 		}, function (err, response, body) {
 			if (!err && response.statusCode == 200) {
+                console.log('[*] 向服务器请求支付');
 				//返回来的XML数据
 				var _reBodyXml = body.toString('uft-8');
 				console.log('return xml data ==', _reBodyXml);
@@ -128,8 +129,10 @@ class WxPayHandler {
 					msg: '请求prepay_id'
 				};
 				if (_reCode == 'SUCCESS') {
+                    console.log('[*] _reCode == "SUCCESS"');
 					var _resultCode = getXMLNodeValue('result_code', _reBodyXml, false);
 					if (_resultCode == 'SUCCESS') {
+                        console.log('[*] _reCode == "SUCCESS",_resultCode == "SUCCESS"');
 						//成功时返回prepay_id与二维码
 						rePrepayId.prepay_id = getXMLNodeValue('prepay_id', _reBodyXml, false);
 						rePrepayId.msg = '成功取得prepay_id';
@@ -151,7 +154,7 @@ class WxPayHandler {
 					}
 					_cb && _cb(rePrepayId);
 				} else if (_reCode == 'FAIL') {
-					rePrepayId.msg = getXMLNodeValue('return_msg', _reBodyXml, false);
+                    console.log("[*] _reCode == 'FAIL'");
 					_cbfail && _cbfail(rePrepayId);
 				}
 			}
@@ -161,6 +164,7 @@ class WxPayHandler {
 
 	//根据数据格式需求生成签名
 	paySign(_array) {
+        console.log("[*] paySign(_array)", _array);
 		_array = _array || {};
 		//拼接成微信服务器所需字符格式
 		var string = getRawString(_array);
