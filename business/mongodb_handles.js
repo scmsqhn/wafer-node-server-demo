@@ -83,7 +83,6 @@ MongodbHandler = {
 			if (err) {
 				console.log(err)
 			} else {
-                console.log("mongo连接成功！");
 				var collection = db.collection(col);
                 console.log("COUNT=")
 //                console.log(collection.find(whereStr).count())

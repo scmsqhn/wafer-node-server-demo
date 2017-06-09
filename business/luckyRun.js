@@ -15,25 +15,19 @@ var expireTime = 7200000;
  *   "openid":"o44Xt0ESHNe6SSyVL9aP6B_noTdY"
  *  }
  **/
-var WxPayHandler
+var LuckyRun
 var openID = ""
-	var basetime = -1
-	var myopenid = ""
+var basetime = -1
+var myopenid = ""
 
-	WxPayHandler = {
+LuckyRun = {
 	constructor: function (name) {
 		this.name = name;
 		//console.log("new WxPayHandler()")
 	},
-
-	timecal: function (inputtime) {
-		//console.log("Date.now()=" + Date.now())
-		//console.log("inputtime=" + inputtime)
-		if ((Date.now() - inputtime) < 7200000) {
-			return true
-		} else {
-			return false
-		}
+	getTheLuckyNum: function (large) {
+        r = random.randint(0,large)
+        console.log('# r =', r)
 	},
 	getintime(injson) {
 		try {
@@ -293,9 +287,9 @@ var openID = ""
 	getXmlFormat: function (_array) {
 		var keys = Object.keys(_array);
 		keys = keys.sort()
-			var _xmlData = '<xml>';
+        var _xmlData = '<xml>';
 		keys.forEach(function (key) {
-			_xmlData += '<' + key + '>' + _array[key] + '</' + key + '>';
+          _xmlData += '<' + key + '>' + _array[key] + '</' + key + '>';
 		});
 		//取得签名加密字符串
 		var _paySign = this.paySign(_array);
@@ -306,4 +300,4 @@ var openID = ""
 	},
 }
 
-module.exports = WxPayHandler;
+module.exports = LuckyRun;

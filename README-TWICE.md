@@ -205,8 +205,30 @@ mongoimport -h localhost --port 27017 -d ananfu -c buyhistory -f BUYUNITS,DESC,I
 mongoimport -h localhost --port 27017 -d ananfu -c goodsList --file  /data/release/node-weapp-demo/goodsList.csv --type csv --headerline
 
 尽可能少的减少数据交互
+---
+# 10:37 2017/6/9
+[*] 注册 安安福夺宝 商户号 结算账号认证
+[*] buyhistory 就是所有的下单List记录 与 付款结算是一致的;
+[*] 支付完成后 把 数据,纯如 buyhistory
+[*] 个人根据openId查询 
 
+[*] 统一支付借口发出数据格式 
+    URL地址：https://api.mch.weixin.qq.com/pay/unifiedorder
 
+<xml>
+  <appid>wx56df671c2e5c8bb7 </appid>
+  <body>ananshopping </body>
+  <mch_id>1436856702 </mch_id>
+  <nonce_str>u1omrtgm2crz981 </nonce_str>
+  <notify_url>https: //70139330.qcloud.la/notify </notify_url>
+  <openid></openid>
+  <out_trade_no>wxpay516</out_trade_no>
+  <spbill_create_ip>10.9.38.224</spbill_create_ip>
+  <total_fee>1</total_fee>
+  <trade_type>JSAPI</trade_type>
+  <sign>A8BDEDBBCDD9ED663F4A6195A8522D6B</sign>
+</xml>
 
-
-
+---
+[*] 商户号与app_id 不匹配 mch_id app_id
+[*] 商户号与app_id 不匹配 mch_id app_id

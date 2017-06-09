@@ -48,7 +48,6 @@ MongodbHandler = {
 				console.log(error)
 			} else {
 				assert.equal(null, err);
-				console.log('连接成功!');
 				db.close();
 			}
 		});
