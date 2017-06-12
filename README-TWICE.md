@@ -56,6 +56,7 @@ H:\wafer-node-server-demo-master\wafer-node-server-demo-master
 找到并重启当前项目的指令语句
 > 执行该语句
 ps -aux |grep app|awk -e '{print "kill -9 " $2}' |sh
+ps -aux |grep node|awk -e '{print "kill -9 " $2}' |sh
 > 打印该语句
 ps -aux |grep app|awk -e '{print "kill -9 " $2}' 
 > 运行
@@ -196,7 +197,8 @@ Stack:    在 System.Security.Cryptography.MD5CryptoServiceProvider..ctor()
 ## 13:47 2017/5/19
 插入mongoimport 导入数据
 成功
-mongoimport -h localhost --port 27017 -d ananfu -c buyhistory -f BUYUNITS,DESC,IMGURL,IMGURL2,IMGURL3,IMGURL4,NAME,TAG,PERIOD,TAKERATE,TAKECHANCES,TOTALCHANCES,WINNER --ignoreBlanks --file /data/release/node-weapp-demo/buyhistory.csv --type csv --headerline --upsert
+mongoimport -h localhost --port 27017 -d ananfu -c buyhistory -f BUYUNITS,DESC,IMGURL,IMGURL2,IMGURL3,IMGURL4,NAME,TAG,PERIOD,TAKERATE,TAKECHANCES,TOTALCHANCES,WINNER --ignoreBlanks --file /data/release/node-weapp-demo/buyhistory.csv --type csv --headerline
+mongoimport -h localhost --port 27017 -d ananfu -c buyhistory --file /data/release/node-weapp-demo/buyhistory.csv --type csv --headerline
 
 工作不能拖沓,也不能求快,找好节奏,提高效率;
 ---

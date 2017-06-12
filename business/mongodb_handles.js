@@ -145,6 +145,23 @@ MongodbHandler = {
 			}
 		});
 	},
+    updateData: function (db, col, data, callback) {
+		MongoClient.connect(DB_URL, function (err, db) {
+			if (err) {
+				console.log(err)
+			} else {
+				var collection = db.collection(col);
+				collection.update(data, function (err, result) {
+					if (err) {
+						console.log('Error:' + err);
+						return;
+					}
+					callback(result);
+                    db.close();
+				});
+			}
+		});
+	},
 }
 
 module.exports = MongodbHandler;

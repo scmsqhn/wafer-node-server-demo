@@ -3,6 +3,8 @@
 require('./globals');
 require('./setup-qcloud-sdk');
 
+var schedule = require("node-schedule"); 
+
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -12,6 +14,7 @@ var path = require('path');
 //var jade = require('jade');
 var fs = require('fs');
 var mongodb = require("mongodb");
+var LuckyRun = require('./business/luckyRun');
 //var monk = require('monk');
 //var db = monk('localhost:27017/data');
 //H:\node-weapp-demo\app.js
@@ -44,6 +47,16 @@ process.on('uncaughtException', error =>
 	console.log(error);
 });
 
+var rule3 = new schedule.RecurrenceRule();  
+var times3 = [10,20,30,40,50,59];
+var times4 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,38,39,40,45,50,55,59];
+//rule3.hour  = times3;  
+rule3.second  = times3;  
+schedule.scheduleJob(rule3, function(){ 
+  console.log("[*] 执行定时任务")
+  LuckyRun.checkLuckyStatus();  
+});
+  
 // 启动server
 if (!module.parent) {
 	http.createServer(app).listen(config.port, () =>
