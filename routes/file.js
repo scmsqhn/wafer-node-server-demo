@@ -31,7 +31,6 @@ var fileUtils = {
 			res.write(body, 'utf8');
 			res.end();
 		});
-
 	},
 
 	//显示文件内容
@@ -46,7 +45,7 @@ var fileUtils = {
 			});
 			res.write(file, "binary");
 			res.end();
-			console.log('发送图片回Client: ', res)
+			//console.log('发送图片回Client: ', res)
 		})
 	},
 

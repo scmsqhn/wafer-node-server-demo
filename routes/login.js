@@ -9,6 +9,8 @@ module.exports = (req, res) => {
     	var thatres = res
 		console.log("\n客户端发起注册, req.query.code= " + req.query.code)
 		var code = req.query.code
+        var openid = null
+        var intime = -1
 		var encryptedData = req.query.encryptedData
 		var iv = req.query.iv
 		var userinfo = req.query.userinfo
@@ -19,37 +21,36 @@ module.exports = (req, res) => {
 			console.log('\n微信服务器返回 请求头：', res.headers);
 			res.on('data', (d) => {
 				var e = JSON.parse(d)
-					var sessiondata = {
+                openid = e.openid
+                intime = Date.now
+                var sessiondata = {
 					"session_key": e.session_key,
 					"openid": e.openid,
 					"intime": Date.now(),
 				}
-				console.log(sessiondata)
+				console.log("[x] 登录获得sessiondata= ", sessiondata)
+                var jsondata = JSON.stringify(sessiondata)
+                console.log("[x] 读取微信服务器返回信息: ", jsondata)
+                thatres.writeHeader(200, {
+                  'Content-Type': 'application/json'
+                });
+                thatres.end(jsondata)
+
+                /**
+                将code openid 存入数据库
+                client在开机同步自己的openid 和 code
+                */
 				MongoClient.connect(config.mongodb_url, function (err, db) {
 					if (err) {
 						console.log(err)
 					} else {
 						console.log("mongo连接成功！");
-						var collection = db.collection("buyhistory");
-						collection.find().toArray(function (err, result) {
-							if (err) {
-								console.log('\nError:' + err);
-								return
-							} else {
-								var goodsList = JSON.stringify(result)
-									console.log("\n读取商品信息返回成功: result= ", goodsList)
-									thatres.writeHeader(200, {
-										'Content-Type': 'application/json'
-									});
-    								//返回的goodsList里面包含了openid
-	    							thatres.end(goodsList)
-							}
-						});
-						var collection = db.collection("userinfo");
+						var coll = db.collection("userinfo");
                         userinfo= JSON.parse(userinfo)
                         userinfo["logintime"]= Date.now()
-                        console.log("userinfo= ", userinfo)
-						collection.insertOne(userinfo, (err, result) => {
+                        userinfo["openid"] = openid
+                        console.log("[*] 本次登陆用户信息 userinfo = ", userinfo)
+						coll.insertOne(userinfo, (err, result) => {
 							if (err) {
 								console.log('\nError:' + err);
 								return

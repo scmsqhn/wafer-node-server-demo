@@ -200,10 +200,6 @@ sync = {
 }
 
 module.exports = (req, res) => {
-	console.log("sync 文件")
-	console.log(req.query.code)
-	console.log(req.query.item)
-	console.log(req.query)
 	var codedata = {
 		"intime": Date.now(),
 		"code": req.query.code,
@@ -250,7 +246,6 @@ module.exports = (req, res) => {
 		res.end("insert OK");
 	}
 	if (codedata.code == "1003") {
-		console.log("codedata", codedata)
 		MongoClient.connect(config.mongodb_url, function (err, db) {
 			if (err) {
 				console.log(err)

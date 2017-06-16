@@ -199,6 +199,7 @@ Stack:    在 System.Security.Cryptography.MD5CryptoServiceProvider..ctor()
 成功
 mongoimport -h localhost --port 27017 -d ananfu -c buyhistory -f BUYUNITS,DESC,IMGURL,IMGURL2,IMGURL3,IMGURL4,NAME,TAG,PERIOD,TAKERATE,TAKECHANCES,TOTALCHANCES,WINNER --ignoreBlanks --file /data/release/node-weapp-demo/buyhistory.csv --type csv --headerline
 mongoimport -h localhost --port 27017 -d ananfu -c buyhistory --file /data/release/node-weapp-demo/buyhistory.csv --type csv --headerline
+mongoimport -h localhost --port 27017 -d ananfu -c goodsList --file /data/release/node-weapp-demo/goodsList.csv --type csv --headerline
 
 工作不能拖沓,也不能求快,找好节奏,提高效率;
 ---
@@ -234,3 +235,14 @@ mongoimport -h localhost --port 27017 -d ananfu -c goodsList --file  /data/relea
 ---
 [*] 商户号与app_id 不匹配 mch_id app_id
 [*] 商户号与app_id 不匹配 mch_id app_id
+
+---
+# 9:31 2017/6/12
+## 开发任务
+[x] 确认支付流程
+[x] 对于完整业务流程中的短板,进行测试补足
+[x] 因为反复登录导致 OPENID 获取 失败,返回undefine
+[x] 
+1) 一元夺宝类应用,微信审核不通过,是否此类应用不可以在微信小程序运营;
+2) 目前,我自己比较看好的就是单品类商城,利润微薄,但是可以做;
+3) 如果有其他领域好的产品,我也愿意做;

@@ -48,10 +48,10 @@ process.on('uncaughtException', error =>
 });
 
 var rule3 = new schedule.RecurrenceRule();  
-var times3 = [10,20,30,40,50,59];
-var times4 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,38,39,40,45,50,55,59];
-//rule3.hour  = times3;  
-rule3.second  = times3;  
+var times3 = [5,15,25,35,45,55]; //每隔10个单位
+var times4 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]; //每隔1个单位
+//rule3.hour  = times4;  
+rule3.hour  = times4;  
 schedule.scheduleJob(rule3, function(){ 
   console.log("[*] 执行定时任务")
   LuckyRun.checkLuckyStatus();  

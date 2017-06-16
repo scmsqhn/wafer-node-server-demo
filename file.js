@@ -46,7 +46,7 @@ var fileUtils = {
 			});
 			res.write(file, "binary");
 			res.end();
-			console.log('发送图片回Client: ', res)
+			//console.log('发送图片回Client: ', res)
 		})
 	},
 

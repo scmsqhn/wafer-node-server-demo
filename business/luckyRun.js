@@ -46,7 +46,7 @@ var openID = ""
 		return (Math.round(Rand * Range));
 	},
 	/**
-	@fun:确认是否开奖
+	@fun:下单成功后,确认是否开奖,如不开奖,则更新数据库,存货信息
 	 */
 	checkLuckyStatus: function () {
 		var that = this

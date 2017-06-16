@@ -29,23 +29,7 @@ module.exports = (req, res) => {
 					if (err) {
 						console.log(err)
 					} else {
-						console.log("mongo连接成功！");
-						var collection = db.collection("buyhistory");
-						collection.find().toArray(function (err, result) {
-							if (err) {
-								console.log('\nError:' + err);
-								return
-							} else {
-								var goodsList = JSON.stringify(result)
-									console.log("\n读取商品信息返回成功: result= ", goodsList)
-									thatres.writeHeader(200, {
-										'Content-Type': 'application/json'
-									});
-    								//返回的goodsList里面包含了openid
-	    							thatres.end(goodsList)
-							}
-						});
-						var collection = db.collection("userinfo");
+						var userinfo = db.collection("userinfo");
                         userinfo= JSON.parse(userinfo)
                         userinfo["logintime"]= Date.now()
                         console.log("userinfo= ", userinfo)
@@ -54,7 +38,7 @@ module.exports = (req, res) => {
 								console.log('\nError:' + err);
 								return
 							} else {
-                                console.log("获得用户信息userinfo= ", result)
+                                //console.log("获得用户信息userinfo= ", result["ops"])
 							}
 						});
 						db.close();
