@@ -14,7 +14,8 @@ module.exports = (req, res) => {
 		var encryptedData = req.query.encryptedData
 		var iv = req.query.iv
 		var userinfo = req.query.userinfo
-		var options = encodeURI('https://api.weixin.qq.com/sns/jscode2session?appid=wx56df671c2e5c8bb7&secret=e6aa6023ff0b180b05b9c2270fb7cf81&js_code=' + code + '&grant_type=authorization_code/')
+		var options = 
+            encodeURI('https://api.weixin.qq.com/sns/jscode2session?appid='+config.appid+'&secret='+config.secret+'&js_code=' + code + '&grant_type=authorization_code/')
 		console.log("\n业务服务器向微信发起请求请求session_key和openid: " + options)
 		https.get(options, (res) => {
 			console.log('\n微信服务器返回 状态码：', res.statusCode);
