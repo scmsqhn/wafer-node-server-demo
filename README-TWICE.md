@@ -246,3 +246,19 @@ mongoimport -h localhost --port 27017 -d ananfu -c goodsList --file  /data/relea
 1) 一元夺宝类应用,微信审核不通过,是否此类应用不可以在微信小程序运营;
 2) 目前,我自己比较看好的就是单品类商城,利润微薄,但是可以做;
 3) 如果有其他领域好的产品,我也愿意做;
+---
+# 14:02 2017/6/16
+## 完成 access_token保存获取
+### redis 安装操作
+[x] 安装redis
+[x] 操作接口
+### access_token获取
+### access_token使用
+---
+# 1:10 2017/6/18
+# 发送模板消息获得FORMID
+# 顺序执行的代码由promise框架执行
+---
+# 9:40 2017/6/18
+## 顾客下单后,发送模板消息FORMID
+body== {"errcode":41028,"errmsg":"invalid form id hint: [ziScMA0267ge21]"}

@@ -9,7 +9,7 @@ module.exports = (req, res) => {
     	var thatres = res
 		console.log("\n客户端发起注册, req.query.code= " + req.query.code)
 		var code = req.query.code
-        var openid = null
+        var openid = req.query.openid
         var intime = -1
 		var encryptedData = req.query.encryptedData
 		var iv = req.query.iv
@@ -24,7 +24,7 @@ module.exports = (req, res) => {
                 openid = e.openid
                 intime = Date.now
                 var sessiondata = {
-					"session_key": e.session_key,
+					//"session_key": e.session_key,
 					"openid": e.openid,
 					"intime": Date.now(),
 				}
@@ -46,6 +46,7 @@ module.exports = (req, res) => {
 					} else {
 						console.log("mongo连接成功！");
 						var coll = db.collection("userinfo");
+                        console.log(userinfo)
                         userinfo= JSON.parse(userinfo)
                         userinfo["logintime"]= Date.now()
                         userinfo["openid"] = openid

@@ -3,6 +3,7 @@ var config = require('../config')
 var mongodb = require('mongodb')
 var MongoClient = require("mongodb").MongoClient;
 var DB_URL = config.mongodb_url
+const MongodbHandler = require('../business/mongodb_handles');
 
 const goodsList = [{
 		"goods": {
@@ -207,6 +208,7 @@ module.exports = (req, res) => {
 		"openid": req.query.openid,
 		"data": req.query.data,
 		"period": req.query.period,
+        "ecode": req.query.ecode
 	}
 	//  console.log("req="+codedata)
 	if (codedata.code == "1001") { //obtains goodsList
@@ -301,4 +303,38 @@ module.exports = (req, res) => {
 		});
 	}
 	//  console.log('listening on localhost:8080');
-};
+    if (codedata.code == "1007") {
+        console.log('[*] 执行getOpenId')
+        var obj = {}
+        var options =
+          encodeURI('https://api.weixin.qq.com/sns/jscode2session?appid='+config.appid+'&secret='+config.secret+'&js_code=' + codedata.ecode + '&grant_type=authorization_code/')
+        const https = require('https');
+        var item = {}
+        https.get(options, (result) => {
+          console.log('状态码：', result.statusCode);
+          console.log('请求头：', result.headers);
+          result.on('data', (d) => {
+            var e = JSON.parse(d)
+            var sessiondata = {
+              "session_key": e.session_key,
+              "expires_in": 7200,
+              "openid": e.openid,
+              "intime": Date.now()
+            }
+            basetime = Date.now()
+            MongodbHandler.insertData("ananfu", "openid", sessiondata, console.log)
+            myopenid = e.openid
+            console.log("[*] 从微信获得myopenid: ", myopenid)
+            item["openid"] = e.openid;
+            item["intime"] = Date.now();
+            res.writeHeader(200, {
+              'Content-Type': 'application/json'
+            });
+            res.end(JSON.stringify(item))
+          });
+        }).on('error', (e) => {
+          console.error("[*] 获得OPENID 失败");
+          console.error(e);
+        });
+    }
+}
